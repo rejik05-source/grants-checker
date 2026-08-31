@@ -2,9 +2,9 @@ import json
 import os
 import requests
 from bs4 import BeautifulSoup
-import google-generativeai as genai
+import google.generativeai as genai
 
-# התחברות ל-Gemini בעזרת המפתח הסודי
+# התחברות ל-Gemini
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel('gemini-1.5-flash')
 
@@ -14,7 +14,7 @@ with open('federations.json', 'r', encoding='utf-8') as f:
 all_open_grants = []
 
 for fed in federations:
-    print(f"Sensing: {fed['name']}...")
+    print(f"Checking: {fed['name']}...")
     try:
         headers = {'User-Agent': 'Mozilla/5.0'}
         response = requests.get(fed['url'], headers=headers, timeout=15)
