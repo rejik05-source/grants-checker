@@ -4,14 +4,25 @@ import requests
 from bs4 import BeautifulSoup
 import google.generativeai as genai
 
-# התחברות ל-Gemini
+# הגדרת התחברות ל-Gemini
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel('gemini-1.5-flash')
 
+# הגדרת פרטי טלגרם
+telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+telegram_chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+
+def send_telegram_msg(text):
+    if telegram_token and telegram_chat_id:
+        url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
+        payload = {"chat_id": telegram_chat_id, "text": text, "parse_mode": "HTML"}
+        try:
+            requests.post(url, json=payload, timeout=10)
+        except Exception as e:
+            print(f"Failed to send Telegram message: {e}")
+
 with open('federations.json', 'r', encoding='utf-8') as f:
     federations = json.load(f)
-
-all_open_grants = []
 
 for fed in federations:
     print(f"Checking: {fed['name']}...")
@@ -39,13 +50,10 @@ for fed in federations:
         result = model.generate_content(prompt)
         
         if "אין קולות קוראים פתוחים" not in result.text:
-            all_open_grants.append(f"<b>{fed['name']}</b>:\n{result.text}\nURL: {fed['url']}\n---")
+            msg = f"<b>{fed['name']}</b>:\n{result.text}\nURL: {fed['url']}"
+            send_telegram_msg(msg)
 
     except Exception as e:
         print(f"Error {fed['name']}: {e}")
 
-# שמירת התוצאות
-with open('found_grants.txt', 'w', encoding='utf-8') as f:
-    f.write("\n\n".join(all_open_grants))
-
-print("Done!")
+print("Done scanning!")
