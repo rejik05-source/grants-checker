@@ -1,11 +1,11 @@
 [
   {
     "name": "New York UJA",
-    "url": "https://ujanet.ujafedny.org/s/?_ga=2.90225426.983011793.1788187627-581666565.1779621953"
+    "url": "https://www.ujafedny.org/resources/grants"
   },
   {
     "name": "Chicago JUF",
-    "https://www.juf.org/women/jewish-womens-foundation/grants/apply-for-a-grant/"
+    "url": "https://www.juf.org/grants/"
   },
   {
     "name": "Boston CJP",
@@ -21,7 +21,7 @@
   },
   {
     "name": "Pittsburgh Federation",
-    "url": "https://grantmakingportal.smapply.io//"
+    "url": "https://jewishpgh.org/info/grants/"
   },
   {
     "name": "San Francisco Federation",
@@ -37,6 +37,6 @@
   },
   {
     "name": "Philadelphia Federation",
-    "url": "https://jekti twishphilly.org/resources/grants/"
+    "url": "https://jewishphilly.org/resources/grants/"
   }
 ]
