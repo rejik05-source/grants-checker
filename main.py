@@ -57,3 +57,4 @@ for fed in federations:
         print(f"Error {fed['name']}: {e}")
 
 print("Done scanning!")
+send_telegram_msg("בדיקה! הבוט מחובר בהצלחה לטלגרם 🚀")
