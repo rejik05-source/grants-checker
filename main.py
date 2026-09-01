@@ -4,11 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 import google.generativeai as genai
 
-# הגדרת התחברות ל-Gemini
+# הגדרות חיבור
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-# הגדרת פרטי טלגרם
 telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 telegram_chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
@@ -17,11 +16,16 @@ def send_telegram_msg(text):
         url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
         payload = {"chat_id": telegram_chat_id, "text": text, "parse_mode": "HTML"}
         try:
-            requests.post(url, json=payload, timeout=10)
+            res = requests.post(url, json=payload, timeout=10)
+            print(f"Telegram API Status: {res.status_code}")
+            if res.status_code != 200:
+                print(f"Telegram Response Error: {res.text}")
         except Exception as e:
             print(f"Failed to send Telegram message: {e}")
+    else:
+        print("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID in GitHub Secrets!")
 
-# הודעת בדיקה מידית!
+# ניסיון שליחה מיידי
 send_telegram_msg("🚀 בדיקה: הסורק האוטומטי התחיל לעבוד כעת!")
 
 with open('federations.json', 'r', encoding='utf-8') as f:
