@@ -21,6 +21,9 @@ def send_telegram_msg(text):
         except Exception as e:
             print(f"Failed to send Telegram message: {e}")
 
+# הודעת בדיקה מידית!
+send_telegram_msg("🚀 בדיקה: הסורק האוטומטי התחיל לעבוד כעת!")
+
 with open('federations.json', 'r', encoding='utf-8') as f:
     federations = json.load(f)
 
@@ -57,4 +60,3 @@ for fed in federations:
         print(f"Error {fed['name']}: {e}")
 
 print("Done scanning!")
-send_telegram_msg("בדיקה! הבוט מחובר בהצלחה לטלגרם 🚀")
