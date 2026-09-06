@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from google import genai
 
-# התחברות ל-Gemini בגרסה העדכנית
+# התחברות ל-Gemini
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # הגדרות פרטי טלגרם
@@ -26,7 +26,7 @@ def send_telegram_msg(text):
         print("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID in GitHub Secrets!")
 
 # הודעת בדיקה מידית
-send_telegram_msg("🚀 בדיקה: הסורק האוטומטי התחיל לעבוד כעת!")
+send_telegram_msg("🚀 בדיקה: הסורק האוטומטי מחובר ועובד!")
 
 with open('federations.json', 'r', encoding='utf-8') as f:
     federations = json.load(f)
@@ -54,13 +54,13 @@ for fed in federations:
         {page_text}
         """
 
-        response = client.models.generate_content(
+        res = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=prompt,
         )
         
-        if "אין קולות קוראים פתוחים" not in response.text:
-            msg = f"<b>{fed['name']}</b>:\n{response.text}\nURL: {fed['url']}"
+        if "אין קולות קוראים פתוחים" not in res.text:
+            msg = f"<b>{fed['name']}</b>:\n{res.text}\nURL: {fed['url']}"
             send_telegram_msg(msg)
 
     except Exception as e:
