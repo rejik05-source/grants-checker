@@ -2,12 +2,12 @@ import json
 import os
 import requests
 from bs4 import BeautifulSoup
-import google.generativeai as genai
+from google import genai
 
-# הגדרות חיבור
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash')
+# התחברות ל-Gemini בגרסה העדכנית
+client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
+# הגדרות פרטי טלגרם
 telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 telegram_chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
@@ -25,7 +25,7 @@ def send_telegram_msg(text):
     else:
         print("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID in GitHub Secrets!")
 
-# ניסיון שליחה מיידי
+# הודעת בדיקה מידית
 send_telegram_msg("🚀 בדיקה: הסורק האוטומטי התחיל לעבוד כעת!")
 
 with open('federations.json', 'r', encoding='utf-8') as f:
@@ -54,10 +54,13 @@ for fed in federations:
         {page_text}
         """
 
-        result = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
         
-        if "אין קולות קוראים פתוחים" not in result.text:
-            msg = f"<b>{fed['name']}</b>:\n{result.text}\nURL: {fed['url']}"
+        if "אין קולות קוראים פתוחים" not in response.text:
+            msg = f"<b>{fed['name']}</b>:\n{response.text}\nURL: {fed['url']}"
             send_telegram_msg(msg)
 
     except Exception as e:
