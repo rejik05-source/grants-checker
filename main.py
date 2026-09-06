@@ -1,10 +1,11 @@
 import json
 import os
+import time
 import requests
 from bs4 import BeautifulSoup
 from google import genai
 
-# התחברות ל-Gemini במודל העדכני
+# התחברות ל-Gemini
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # הגדרות פרטי טלגרם
@@ -13,9 +14,7 @@ telegram_chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
 
 def send_telegram_msg(text):
     if telegram_token and telegram_chat_id:
-        # ניקוי המילה 'bot' במידה והוכנסה בטעות לתוך ה-Token
-        clean_token = telegram_token.replace("bot", "") if telegram_token.startswith("bot") else telegram_token
-        url = f"https://api.telegram.org/bot{clean_token}/sendMessage"
+        url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
         payload = {"chat_id": telegram_chat_id, "text": text, "parse_mode": "HTML"}
         try:
             res = requests.post(url, json=payload, timeout=10)
@@ -57,7 +56,7 @@ for fed in federations:
         """
 
         res = client.models.generate_content(
-            model='gemini-3.6-flash',
+            model='gemini-2.5-flash',
             contents=prompt,
         )
         
@@ -67,5 +66,8 @@ for fed in federations:
 
     except Exception as e:
         print(f"Error {fed['name']}: {e}")
+
+    # השהיה של 12 שניות למניעת חריגה ממגבלת הקצב (Rate Limit) של Gemini
+    time.sleep(12)
 
 print("Done scanning!")
