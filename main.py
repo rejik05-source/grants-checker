@@ -4,16 +4,18 @@ import requests
 from bs4 import BeautifulSoup
 from google import genai
 
-# התחברות ל-Gemini
+# התחברות ל-Gemini במודל העדכני
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # הגדרות פרטי טלגרם
-telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN")
-telegram_chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+telegram_chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
 
 def send_telegram_msg(text):
     if telegram_token and telegram_chat_id:
-        url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
+        # ניקוי המילה 'bot' במידה והוכנסה בטעות לתוך ה-Token
+        clean_token = telegram_token.replace("bot", "") if telegram_token.startswith("bot") else telegram_token
+        url = f"https://api.telegram.org/bot{clean_token}/sendMessage"
         payload = {"chat_id": telegram_chat_id, "text": text, "parse_mode": "HTML"}
         try:
             res = requests.post(url, json=payload, timeout=10)
@@ -25,8 +27,8 @@ def send_telegram_msg(text):
     else:
         print("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID in GitHub Secrets!")
 
-# הודעת בדיקה מידית
-send_telegram_msg("🚀 בדיקה: הסורק האוטומטי מחובר ועובד!")
+# הודעת בדיקה מידית לטלגרם
+send_telegram_msg("🚀 בדיקה: הסורק האוטומטי מחובר ועובד בהצלחה!")
 
 with open('federations.json', 'r', encoding='utf-8') as f:
     federations = json.load(f)
@@ -55,7 +57,7 @@ for fed in federations:
         """
 
         res = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.6-flash',
             contents=prompt,
         )
         
