@@ -67,7 +67,7 @@ for fed in federations:
     except Exception as e:
         print(f"Error {fed['name']}: {e}")
 
-    # השהיה של 12 שניות למניעת חריגה ממגבלת הקצב (Rate Limit) של Gemini
+    # השהיה של 12 שניות למניעת חריגת קצב בגרסה החינמית
     time.sleep(12)
 
 print("Done scanning!")
