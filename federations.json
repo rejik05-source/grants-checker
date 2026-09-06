@@ -1,27 +1,23 @@
 [
   {
-    "name": "New York UJA",
-    "url": "https://www.ujafedny.org/resources/grants"
+    "name": "Arison Foundation",
+    "url": "https://www.arisonfoundation.com/organizational-grants/"
   },
   {
-    "name": "Chicago JUF",
-    "url": "https://www.juf.org/grants/"
+    "name": "New York UJA Federation",
+    "url": "https://www.ujafedny.org/grant-opportunities"
   },
   {
-    "name": "Boston CJP",
+    "name": "Chicago JUF Women Federation",
+    "url": "https://www.juf.org/women/jewish-womens-foundation/grants/apply-for-a-grant/"
+  },
+  {
+    "name": "Boston CJP Federation",
     "url": "https://www.cjp.org/grants-and-scholarships"
-  },
-  {
-    "name": "Los Angeles Federation",
-    "url": "https://www.jewishla.org/grants/"
   },
   {
     "name": "Miami Federation",
     "url": "https://jewishmiami.org/resources/grants_for_non_profits/"
-  },
-  {
-    "name": "Pittsburgh Federation",
-    "url": "https://jewishpgh.org/info/grants/"
   },
   {
     "name": "San Francisco Federation",
@@ -33,10 +29,10 @@
   },
   {
     "name": "Cleveland Federation",
-    "url": "https://www.jewishcleveland.org/give_and_volunteer/grants/"
+    "url": "https://www.jewishcleveland.org/give_and_volunteer/grants"
   },
   {
     "name": "Philadelphia Federation",
-    "url": "https://jewishphilly.org/resources/grants/"
+    "url": "https://jewishphilly.org/resources/grants"
   }
 ]
